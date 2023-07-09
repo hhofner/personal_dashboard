@@ -1,0 +1,29 @@
+# fly.toml app configuration file generated for ancient-dream-1350 on 2023-07-08T17:55:16+09:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "ancient-dream-1350"
+primary_region = "nrt"
+kill_signal = "SIGTERM"
+
+[mounts]
+  source="hello_hans_volume"
+  destination="/mnt/hello_hans_volume"
+
+[env]
+  PHX_HOST = "ancient-dream-1350.fly.dev"
+  PORT = "8080"
+  DATABASE_PATH = "/mnt/hello_hans_volume/name.db" 
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+  [http_service.concurrency]
+    type = "connections"
+    hard_limit = 1000
+    soft_limit = 1000
